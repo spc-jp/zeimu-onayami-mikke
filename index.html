@@ -416,6 +416,46 @@
   /* step1 & step2 visibility */
   #step1 { display: block; }
   #step2 { display: none; }
+
+  /* ── SCROLL TO TOP ── */
+  @keyframes bounce-arrow {
+    0%, 100% { transform: translateY(0); }
+    40%       { transform: translateY(-6px); }
+    70%       { transform: translateY(-3px); }
+  }
+  #scrollTopBtn {
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(13,61,82,0.22);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease, background 0.22s ease, box-shadow 0.22s ease;
+    z-index: 150;
+  }
+  #scrollTopBtn.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #scrollTopBtn svg {
+    animation: bounce-arrow 1.6s ease-in-out infinite;
+  }
+  #scrollTopBtn:hover {
+    background: var(--text);
+    box-shadow: 0 6px 22px rgba(13,61,82,0.35);
+  }
+  #scrollTopBtn:hover svg path {
+    stroke: var(--gold);
+  }
 </style>
 </head>
 <body>
@@ -513,6 +553,13 @@
   このツールは税務アドバイスを提供するものではありません。具体的なご相談は必ず税理士にご依頼ください。<br>
   <a href="#">プライバシーポリシー</a>
 </footer>
+
+<!-- SCROLL TO TOP -->
+<button id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="ページトップへ戻る">
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M11 17V5M5 11L11 5L17 11" stroke="#0D3D52" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
 
 <!-- MAIL MODAL -->
 <div class="modal-overlay" id="mailModal" onclick="closeMailModal(event)">
@@ -658,6 +705,18 @@ function closeMailModal(e) {
     document.getElementById('mailModal').classList.remove('open');
   }
 }
+
+// ── SCROLL TO TOP ──
+(function() {
+  const btn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY >= 400) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  }, { passive: true });
+})();
 
 function copyMailBody() {
   const d = DATA[currentCategory];
