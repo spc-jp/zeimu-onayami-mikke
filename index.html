@@ -5,6 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>税務お悩み診断くん｜〇〇税理士事務所</title>
 <link rel="icon" href="https://spc-jp.github.io/zeimu-onayami-mikke/favicon.png">
+<!-- OGP -->
+<meta property="og:title" content="税務お悩み診断くん｜〇〇税理士事務所">
+<meta property="og:description" content="税務・経営の悩みを6カテゴリで診断。税理士に相談できることがひと目でわかります。確定申告・節税・相続・インボイス・給与計算・資金繰りに対応。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://spc-jp.github.io/zeimu-onayami-mikke/">
+<meta property="og:image" content="https://raw.githubusercontent.com/spc-jp/zeimu-onayami-mikke/main/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="〇〇税理士事務所">
+<meta property="og:locale" content="ja_JP">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="税務お悩み診断くん｜〇〇税理士事務所">
+<meta name="twitter:description" content="税務・経営の悩みを6カテゴリで診断。税理士に相談できることがひと目でわかります。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/spc-jp/zeimu-onayami-mikke/main/ogp.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
 <style>
@@ -413,7 +428,7 @@
   }
   .copy-toast.show { display: block; }
 
-  /* step1 & step2 visibility */
+  /* ── STEP VISIBILITY ── */
   #step1 { display: block; }
   #step2 { display: none; }
 
@@ -670,7 +685,6 @@ function showResult(idx) {
   const d = DATA[idx];
   document.getElementById('r-icon').textContent = d.icon;
   document.getElementById('r-title').textContent = d.title + 'について相談する';
-
   document.getElementById('r-desc').textContent = d.desc;
 
   const ul = document.getElementById('r-checklist');
@@ -706,6 +720,17 @@ function closeMailModal(e) {
   }
 }
 
+function copyMailBody() {
+  const d = DATA[currentCategory];
+  const text = `件名：【ご相談】${d.title}について\n\n${OFFICE} 担当者様\n\nお世話になります。\nWebサイトの診断ツールから問い合わせしています。\n\n【相談カテゴリ】\n${d.title}\n\n【相談内容】\n（ここに詳しいご事情をご記入ください）\n\n【お名前】\n\n【ご連絡先】\n\n宛先：${MAIL_TO}`;
+  navigator.clipboard.writeText(text).then(() => {
+    const t = document.getElementById('copyToast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+    closeMailModal();
+  });
+}
+
 // ── SCROLL TO TOP ──
 (function() {
   const btn = document.getElementById('scrollTopBtn');
@@ -717,17 +742,6 @@ function closeMailModal(e) {
     }
   }, { passive: true });
 })();
-
-function copyMailBody() {
-  const d = DATA[currentCategory];
-  const text = `件名：【ご相談】${d.title}について\n\n${OFFICE} 担当者様\n\nお世話になります。\nWebサイトの診断ツールから問い合わせしています。\n\n【相談カテゴリ】\n${d.title}\n\n【相談内容】\n（ここに詳しいご事情をご記入ください）\n\n【お名前】\n\n【ご連絡先】\n\n宛先：${MAIL_TO}`;
-  navigator.clipboard.writeText(text).then(() => {
-    const t = document.getElementById('copyToast');
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2800);
-    closeMailModal();
-  });
-}
 </script>
 </body>
 </html>
